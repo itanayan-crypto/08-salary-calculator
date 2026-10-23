@@ -1,0 +1,210 @@
+/* SalaryCalculator: payroll-register look. Form on the left, tear-off salary slip on the right.
+   Self-contained: all colours and classes are scoped under .sc, no global variables needed. */
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Public+Sans:wght@400;500;600;700&display=swap");
+
+.sc {
+  --bg: #eef1ec;
+  --card: #fbfcfa;
+  --ink: #17302c;
+  --muted: #5f726d;
+  --line: #d3dbd5;
+  --brand: #1f5c52;
+  --brand-dark: #153f38;
+  --brand-soft: #dcebe5;
+  --stamp: #e0a526;
+  --danger: #b3321f;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 28px;
+  color: var(--ink);
+  background: var(--bg);
+  border-radius: 20px;
+  font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+.sc *, .sc *::before, .sc *::after { box-sizing: border-box; }
+
+/* ---------- Form ---------- */
+.sc-form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 28px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+.sc-head h1 {
+  margin: 0 0 4px;
+  font-family: "Bricolage Grotesque", "Public Sans", sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+.sc-head p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+
+.sc-group { margin: 0; padding: 0; border: 0; min-width: 0; }
+.sc-group legend {
+  float: left;
+  width: 100%;
+  margin: 0 0 12px;
+  padding: 0 0 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  border-bottom: 1px solid var(--line);
+}
+.sc-group legend + * { clear: both; }
+
+.sc-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.sc-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+.sc-field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.sc-label { font-size: 0.85rem; font-weight: 600; color: var(--muted); }
+.sc-input {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  font: inherit;
+  font-size: 0.97rem;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.sc-input::placeholder { color: #9aa9a4; }
+.sc-input:hover { border-color: #b4c1ba; }
+.sc-input:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px rgba(31, 92, 82, 0.22); }
+.sc-input.is-invalid { border-color: var(--danger); background: #fff8f6; }
+.sc-input.is-invalid:focus { box-shadow: 0 0 0 3px rgba(179, 50, 31, 0.2); }
+.sc-error { font-size: 0.82rem; font-weight: 600; color: var(--danger); }
+
+/* ---------- Position cards ---------- */
+.sc-positions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.sc-position {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 12px 14px;
+  font: inherit;
+  text-align: left;
+  color: var(--ink);
+  background: #fff;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+.sc-position:hover { border-color: var(--brand); }
+.sc-position:focus-visible { outline: 3px solid rgba(31, 92, 82, 0.4); outline-offset: 2px; }
+.sc-position.is-selected {
+  background: var(--brand-soft);
+  border-color: var(--brand);
+  box-shadow: inset 0 0 0 1px var(--brand);
+}
+.sc-position-name { font-weight: 700; }
+.sc-position-wage {
+  font-family: "Bricolage Grotesque", "Public Sans", sans-serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.sc-position-wage small { margin-left: 2px; font-family: "Public Sans", sans-serif; font-size: 0.8rem; font-weight: 500; color: var(--muted); }
+.sc-position-hours { font-size: 0.8rem; color: var(--muted); }
+
+/* ---------- Buttons ---------- */
+.sc-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.sc-btn {
+  min-height: 46px;
+  padding: 0 22px;
+  font: inherit;
+  font-weight: 700;
+  color: var(--ink);
+  background: transparent;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+.sc-btn:hover { border-color: var(--ink); }
+.sc-btn:active { transform: translateY(1px); }
+.sc-btn:focus-visible { outline: 3px solid rgba(31, 92, 82, 0.4); outline-offset: 2px; }
+.sc-btn--primary { color: #fff; background: var(--brand); border-color: var(--brand); }
+.sc-btn--primary:hover { background: var(--brand-dark); border-color: var(--brand-dark); }
+
+/* ---------- Salary slip ---------- */
+.sc-side { position: sticky; top: 20px; }
+
+.sc-slip {
+  position: relative;
+  padding: 26px 24px 38px;
+  background: #fffdf6;
+  border: 1px solid #e6dfc6;
+  border-top: 6px solid var(--stamp);
+  border-radius: 6px 6px 0 0;
+  /* zigzag torn-paper bottom edge */
+  -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 18px 100%;
+  mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 18px 100%;
+  filter: drop-shadow(0 6px 10px rgba(23, 48, 44, 0.12));
+}
+.sc-slip-kicker { margin: 0 0 14px; font-size: 0.85rem; font-weight: 600; color: var(--muted); }
+.sc-slip-name {
+  margin: 0;
+  font-family: "Bricolage Grotesque", "Public Sans", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+.sc-slip-role { margin: 2px 0 18px; color: var(--muted); font-weight: 500; }
+
+.sc-slip-total {
+  margin: 0;
+  font-family: "Bricolage Grotesque", "Public Sans", sans-serif;
+  font-size: clamp(2.4rem, 6vw, 3.4rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--brand);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.sc-slip-formula { margin: 6px 0 18px; font-size: 0.9rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+.sc-slip-list { margin: 0 0 18px; padding: 14px 0 0; border-top: 1.5px dashed #cfc7a8; }
+.sc-slip-list div { display: flex; justify-content: space-between; gap: 12px; padding: 5px 0; }
+.sc-slip-list dt { color: var(--muted); font-size: 0.92rem; }
+.sc-slip-list dd { margin: 0; font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; }
+.sc-slip-contact { margin: 0; padding-top: 14px; border-top: 1.5px dashed #cfc7a8; font-size: 0.88rem; color: var(--muted); overflow-wrap: anywhere; }
+
+.sc-empty {
+  padding: 28px 24px;
+  color: var(--muted);
+  border: 2px dashed var(--line);
+  border-radius: 14px;
+  font-size: 0.95rem;
+}
+.sc-empty p { margin: 0; }
+.sc-empty-title { margin-bottom: 4px !important; font-size: 1.05rem; font-weight: 700; color: var(--ink); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 860px) {
+  .sc { grid-template-columns: 1fr; padding: 16px; }
+  .sc-side { position: static; }
+}
+@media (max-width: 560px) {
+  .sc-form { padding: 20px 16px; }
+  .sc-grid, .sc-grid--3 { grid-template-columns: 1fr; }
+  .sc-head h1 { font-size: 1.6rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sc-input, .sc-position, .sc-btn { transition: none; }
+}
